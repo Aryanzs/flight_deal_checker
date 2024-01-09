@@ -48,24 +48,25 @@ def save():
 def save_other_details():
     destination = destination_entry.get()
     prize = prize_entry.get()
-
-    if len(destination) == 0 or len(prize) == 0:
+    pickup_location = pickup_entry.get()
+    if len(destination) == 0 or len(prize) == 0 or len(pickup_location) == 0:
         messagebox.showinfo(title="Oops", message="Please make sure you haven't left any fields empty.")
     else:
-        is_ok = messagebox.askokcancel(title="Confirm details", message=f"Destination: {destination}\nPrize: {prize}\n"
+        is_ok = messagebox.askokcancel(title="Confirm details", message=f"Destination: {destination}\nPrize: {prize}\nPickup_location: {pickup_location}\n"
                                                                  "Thanks for your submission. When the deal is low, we will notify you.")
         if is_ok:
             with open("data_other.txt", "a") as data_file:
-                data_file.write(f"{destination} | {prize}\n")
+                data_file.write(f"final:-{destination} | cost:-{prize} | initial:-{pickup_location}\n")
                 destination_entry.delete(0, END)
                 prize_entry.delete(0, END)
+                pickup_entry.delete(0, END)
                 close_window()                                           #called close window function here
 
 
 # declared as a global variable to access these variable anywhere
 destination_entry = None
 prize_entry = None
-
+pickup_entry=None
 
 # function of 2nd form to take destination and prize
 def show_other_form():
@@ -82,6 +83,10 @@ def show_other_form():
     global destination_entry
     destination_label = Label(window, text="Enter your destination", bg="#AED6F1")
     destination_label.grid(row=1, column=0)
+    
+    global pickup_entry
+    pickup_label = Label(window, text="Enter your pickup location:", bg="#AED6F1")
+    pickup_label.grid(row=3, column=0)
 
     destination_entry = Entry(window, width=35)
     destination_entry.grid(row=1, column=1, columnspan=2, padx=5, pady=10)
@@ -89,6 +94,10 @@ def show_other_form():
 
     prize_entry = Entry(window, width=35)
     prize_entry.grid(row=2, column=1, padx=5, pady=10)
+    
+    pickup_entry = Entry(window, width=35)
+    pickup_entry.grid(row=3, column=1, padx=5, pady=10)
+
 
     add_button = Button(window, text="submit", width=30, bg="#003366", fg="white", command=save_other_details)
     add_button.grid(row=4, column=0, columnspan=2, padx=5, pady=10)
